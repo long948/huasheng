@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<style type="text/css">
+			body {
+				background: transparent;
+			}
+		</style>
+		<script src="js/TCaptcha.js"></script>
+		<!-- uni 的 SDK -->
+	</head>
+	<body onclick="close">
+		<script type="text/javascript">
+			var init = function(id) {
+				var captcha1 = new TencentCaptcha(id, function(result) {
+					if (result.ret == 2) {
+						plus.storage.setItem("cache:captcha", JSON.stringify({
+							status: 0
+						}));
+						plus.webview.currentWebview().hide();
+					} else {
+						// console.log(JSON.stringify(result))
+						if (result.ret == 0) {
+							plus.storage.setItem("cache:captcha", JSON.stringify({
+								status: 1,
+								ticket: result.ticket,
+								randstr: result.randstr
+							}));
+							plus.webview.currentWebview().hide();
+						}
+					}
+				});
+				var ready = function() {
+					plus.webview.currentWebview().addEventListener("show",function(){						
+						captcha1.show();
+					});
+				}
+				if (window.plus) {
+					ready();
+				} else {
+					document.addEventListener("plusready", function() {
+						ready();
+					});
+				}
+			}
+			// init('2077072127');
+			init('2054205383');
+		</script>
+	</body>
+</html>

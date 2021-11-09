@@ -1,0 +1,21 @@
+# ehb定时任务 start
+
+#矿机每日释放收益(每天凌晨 00:30)
+30 0 * * * php artisan user:sapling
+
+#机器人过期检测和扣费（每30分钟执行一次）（弃用）
+*/30 * * * * php artisan user:package
+
+#分红与收益 (每周一的 00:00 执行)
+
+0 0 * * 1 php artisan user:dividend
+
+#每分钟运行
+php artisan ctc:auto
+#每天0时运行
+php artisan ctc:reset
+
+# end
+
+
+注:需要看下cron规则是否正确。

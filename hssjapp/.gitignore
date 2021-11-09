@@ -1,0 +1,6 @@
+#斜杠代表下面的东西不提交
+unpackage
+cache
+dist
+release
+.apk

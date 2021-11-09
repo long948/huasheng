@@ -1,0 +1,57 @@
+{
+    "name": "SjSdk",
+    "id": "SjUniPlugin",
+    "version": "1.0.0",
+    "description": "SjUniPlugin插件",
+    "_dp_type":"nativeplugin",
+    "_dp_nativeplugin":{
+        "android": {
+            "plugins": [
+                {
+                    "type": "module",
+                    "name": "SjUniPlugin-SjModule",
+                    "class": "com.sskj.shijin.AbcModule"
+                }
+            ],
+            "hooksClass": "com.sskj.shijin.Abc_AppProxy",
+            "integrateType": "aar",
+            "dependencies": [
+              "com.squareup.okhttp3:okhttp:3.12.0",
+              "com.github.bumptech.glide:glide:4.9.0",
+              "com.github.bumptech.glide:okhttp3-integration:4.6.1"
+            ],
+            "compileOptions": {  //可选，Java编译参数配置
+                "sourceCompatibility": "1.8",
+                "targetCompatibility": "1.8"
+            },
+            "abis": [
+            ],
+            "minSdkVersion": "21",
+            "useAndroidX": true,   //可选，是否兼容使用AndroidX
+            "permissions": [
+            ],
+            "parameters": {
+                "AdsAppKey": {
+                    "des": "广告appkey",
+                    "key": "AdsAppKey"
+                }
+				// "AdsSplash": {
+				//     "des": "开屏广告单元id",
+				//     "key": "AdsSplash"
+				// },
+				// "AdsInset": {
+				//     "des": "插屏图片广告单元id",
+				//     "key": "AdsInset"
+				// },
+				// "AdsFullVideo": {
+				//     "des": "全屏视频广告单元id",
+				//     "key": "AdsFullVideo"
+				// },
+				// "AdsRewardVideo": {
+				//     "des": "激励视频广告单元id",
+				//     "key": "AdsRewardVideo"
+				// }
+            }
+        }
+    }
+}

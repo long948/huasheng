@@ -1,0 +1,16 @@
+需要后台执行异步队列
+
+1.释放收益后随机累计至仓库
+php artisan queue:work --queue=release
+
+2.大黄站岗队列
+php artisan queue:work --queue=dog_stand_guard
+
+3.大黄休息队列
+php artisan queue:work --queue=dog_rest
+
+4.老鼠受伤休息队列
+php artisan queue:work --queue=mouse_healing
+
+5.计算团队统计信息
+php artisan queue:work --queue=team

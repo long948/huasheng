@@ -1,0 +1,26 @@
+定时任务：
+
+1.仓库转出至账户(凌晨12点)
+php artisan user:total
+
+2.团队信息统计（每晚一次）
+php artisan user:team
+
+3.释放收益(凌晨3点)
+php artisan user:sapling
+
+4.用户等级升级（每晚一次）
+php artisan user:level
+
+5.分红(每周一一次)
+php artisan UserDividend
+
+6.拼购-抽奖
+时间：1分钟一次
+命令： php artisan shop:order:luck
+
+7.拼购-关闭订单
+时间：1分钟一次
+命令： php artisan shop:order:cancel
+
+注：CTC交易部分参照E环保

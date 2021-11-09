@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="base.css"/>
+		<link rel="stylesheet" type="text/css" href="register.css"/>
+		<script src="mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<title></title>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		<div class="box" id="app">
+			<div class="content">
+				<div class="logo-cont text-center">
+					<img class="logo" src="e3f181eacb59b9c2a7b47ad1070c5fa.png" />
+				</div>
+				<div class="form-cont">
+					<div class="contInput flex-center">
+						<img src="b5f9899600da1fea96ae6924a37edbe.png" />
+						<span class="split-line"></span>
+						<input type="text" placeholder="请输入手机号" v-model="mobile" maxlength="11" />
+					</div>
+					<div class="contInput flex-center">
+						<img src="eca5af10099d156eedbf1c92cffa733.png" />
+						<span class="split-line"></span>
+						<input type="password" placeholder="请设置密码" v-model="pass" maxlength="20" />
+					</div>
+					<div class="contInput flex-center">
+						<img src="a50ae33f8439ac9db1b66a52c1e6e13.png" />
+						<span class="split-line"></span>
+						<input type="password" placeholder="请再次确认密码" v-model="pass1" maxlength="20" />
+					</div>
+					<div class="contInput flex-center pr-10" style="padding-right: 15px;">
+						<input type="text" placeholder="填写验证码" v-model="code" maxlength="6" />
+						<button class="get-code-btn" :disabled="!code_status" v-if="code_type==1" @click="send_code()">获取验证码</button>
+						<button class="get-code-btn" disabled v-else-if="code_type==2">发送中</button>
+						<button class="get-code-btn" disabled v-else-if="code_type==3">{{num}}S后重发</button>
+					</div>
+					<div class="contInput flex-center">
+						<input type="text" placeholder="填写邀请码" v-model="invite" maxlength="10" />
+					</div>
+					<div class="treaty flex-center mt-20">
+						<div class="flex-center font-12 font-plain">
+							<span class="icon mr-5" :class="{'active':read}"></span>
+							<span @click="read=!read">我已经阅读并同意</span>
+							<span class="font-green" @click="look_treaty()">《用户协议》</span>
+						</div>
+					</div>
+					<div class="go-login flex_center flex_j_c">已有账号？<a class="font_blue" :href="download_url">下载APP</a></div>
+				</div>
+				<div class="btn-cont">
+					<button class="btn" :disabled="!register_status" @click="go_register()">注册</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	function getUrlParam(name){
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	    var r = window.location.search.substr(1).match(reg);
+	    if (r != null) {
+	        return unescape(r[2]);
+	    } else{
+	        return null;
+	    }
+	};
+	var app=new Vue({
+		el:"#app",
+		data:{
+			mobile:"",
+			pass:"",
+			pass1:"",
+			code:"",
+			invite:"",
+			num:60,//倒计时
+			CodeSW:false,//验证码开关
+			read:false,
+			register_status:true,
+			code_status:true,
+			treatyInfo:"",
+			download_url:"",
+			api:"http://api-test.hssjapp.com",//测试
+			// api:"https://api.hssjapp.com",//正式
+			code_type:1,//1-未发送，2发送完成，3发送中
+		},
+		mounted:function(){
+			var self=this;
+			this.get_treaty();
+			let codeurl=getUrlParam("code");
+			self.invite=codeurl;
+			// var agent = (navigator.userAgent || navigator.vendor || window.opera);
+			// if (agent != null) {
+			// 	var agentName = agent.toLowerCase();
+			// 	if(/iphone/i.test(agentName)) {
+			// 		this.download_url = 'https://sapp.dierna.com/Q7vY';
+			// 	}else{
+			// 		this.download_url = 'https://sapp.dierna.com/Q7vY';
+			// 	};
+			// };
+			self.getApp();
+		},
+		methods:{
+			getApp:function(){
+				var self=this;
+				var url= self.api+"/get.app.info"
+				mui.ajax({
+					type: "get",
+					url: url,
+					dataType: 'json',
+					data:{
+						
+					},
+					success: function(data) {
+						// console.log(JSON.stringify(data));
+						self.load=true;
+						if(data.status == 1) {
+							var agent = (navigator.userAgent || navigator.vendor || window.opera);
+							if (agent != null) {
+								var agentName = agent.toLowerCase();
+								if(/iphone/i.test(agentName)) {
+									self.download_url = data.data.iosUrl;
+								}else{
+									self.download_url = data.data.iosUrl;
+								};
+							};
+						}else{
+							mui.toast(data.msg);
+						};
+					},
+					error: function(data) {
+						self.load=true;
+						console.log(JSON.stringify(data));
+					}
+				});
+			},
+			look_treaty:function(){
+				var self=this;
+				mui.confirm(self.treatyInfo,'用户协议',['确认'],function (e) {
+					e.index
+				},'div');
+			},
+			get_treaty:function(){
+				var self=this;
+				var url= self.api+"/article-list"
+				mui.ajax({
+					type: "get",
+					url: url,
+					dataType: 'json',
+					data:{
+						CallIndex :"user_agreement"
+					},
+					success: function(data) {
+						// console.log(JSON.stringify(data));
+						self.load=true;
+						if(data.status == 1) {
+							self.treatyInfo=data.data[0].ArticleDetails;
+							console.log(self.treatyInfo);
+						}else{
+							mui.toast(data.msg);
+						};
+					},
+					error: function(data) {
+						self.load=true;
+						console.log(JSON.stringify(data));
+					}
+				});
+			},
+			send_code:function(data){
+				var self=this;
+				if(!self._checkMobile(self.mobile)){
+					mui.toast("请认真输入手机号码");
+					return false;
+				};
+				var send={
+					Phone:self.mobile,
+				};
+				if(!self.load){
+					mui.toast("发送中,请不要重复点击");
+					return;
+				};
+				self.load=false;
+				self.code_status=false;
+				self.code_type=2;
+				var url=self.api+"/sms-register-code"
+				mui.ajax({
+					type: "post",
+					url: url,
+					dataType: 'json',
+					data:send,
+					success: function(data) {
+						// console.log(JSON.stringify(data));
+						self.load=true;
+						if(data.status == 1) {
+							mui.toast(data.message);
+							self.movetime();
+							self.code_type=3;
+						}else{
+							self.code_type=1;
+							self.code_status=true;
+							mui.toast(data.message);
+						};
+					},
+					error: function(data) {
+						self.load=true;
+						self.code_status=true;
+						self.code_type=1;
+						console.log(JSON.stringify(data));
+						mui.toast('发送失败!');
+					}
+				});
+			},
+			getCode:function(){
+				var self=this;
+				if(!self._checkMobile(self.mobile)){
+					mui.toast("请认真输入手机号码");
+					return false;
+				};
+				captcha1.show();
+			},
+			/*注册*/
+			go_register:function(){
+				var self=this;
+				if(!self._checkMobile(self.mobile)){
+					mui.toast("请认真输入手机号码");
+					return false;
+				};
+				if(self.code==""){
+					mui.toast("请输入验证码");
+					return false;
+				};
+				if(!self._checkPwd(self.pass)){
+					mui.toast("请设置登录密码，最少8-20位数字及字母");
+					return false;
+				};
+				if(self.pass1!=self.pass){
+					mui.toast("两次登录密码输入不一致");
+					return false;
+				};
+				if(self.invite.length==0){
+					mui.toast("请输入邀请码");
+					return false;
+				};
+				if(!self.read){
+					mui.toast("请阅读《服务条款》，并勾选");
+					return false;
+				};
+				self.register_status=false;
+				var send={
+					Phone:self.mobile,
+					Password:self.pass,
+					RepeatPassword:self.pass1,
+					InviteCode:self.invite,
+					AuthCode :self.code, 
+				};
+				if(!self.load){
+					mui.toast("请不要重复点击");
+					return;
+				};
+				var url=self.api+"/member-register"
+				mui.ajax({
+					type:"post",
+					url:url,
+					dataType:'json',
+					data:send,
+					success: function(data){
+						// console.log(JSON.stringify(data));
+						if(data.status==1){
+							mui.toast("注册成功~");
+							self.mobile="";
+							self.pass="";
+							self.pass1="";
+							self.code="";
+							setTimeout(function(){
+								// window.open("https://www.265.im/ehbtest"); 
+								// window.open(self.download_url)
+							},500);
+						}else{
+							mui.toast(data.message);
+						};
+						self.register_status=true;
+					},
+					error: function(data){
+						console.log(JSON.stringify(data));
+						mui.toast('注册失败!');
+						self.register_status=true;
+					}
+				});
+			},
+			_checkPwd:function(pwd){
+				if(!(/^(?![0-9]*$)[a-zA-Z0-9\W]{8,20}$/.test(pwd))) {
+					return false;
+				} else {
+					return true;
+				};
+			},
+			_checkMobile:function(sMobile){
+				if(!(/^1[3|4|5|6|7|8|9][0-9]\d{8}$/.test(sMobile))) {
+					return false;
+				} else {
+					return true;
+				};
+			},
+			movetime: function() {
+				var self = this;
+				self.CodeSW = true;
+				var interval = setInterval(function() {
+					if(self.num != 0) {
+						self.num--;
+					} else {
+						clearInterval(interval);
+						self.CodeSW = false;
+						self.num = 60;
+						self.code_type=1;
+						self.code_status=true;
+					};
+				}, 1000);
+			},
+		},
+	});
+</script>

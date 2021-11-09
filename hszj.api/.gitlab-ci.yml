@@ -1,0 +1,57 @@
+stages:               #分两步，第一步构建，第二步集群创建
+  - build               
+  - start
+  
+cache:
+  paths:
+    - vendor                   #需要缓存的目录
+  key: $CI_PROJECT_ID            #根据项目ID进行缓存
+    
+variables:            #三个变量组合为具体的项目名
+  NS_NAME: "akd"
+  END: "web"                 
+  INTERFACE: "api"
+  
+job1:
+  stage: build
+  script: 
+    - if [ "$END" != "admin" ] && [ "$END" != "web" ]; then             #判断变量取值$END，限定变量取值范围
+    -     echo "END变量取值错误"
+    -     exit 4
+    - fi
+    - if [ "$INTERFACE" != "api" ] && [ "$INTERFACE" != "html" ]; then  #判断变量取值$INTERFACE，限定变量取值范围
+    -     echo "INTERFACE变量取值错误"
+    -     exit 5
+    - fi
+    - if [ ! -d "/data/volumes/${NS_NAME}/${END}-${INTERFACE}/html/" ] ;then          #判断挂载卷的路径是否存在，不存在则创建
+    -     sudo mkdir -pv /data/volumes/${NS_NAME}/${END}-${INTERFACE}/html/ 
+    - fi 
+    - sudo rm -rf /data/volumes/${NS_NAME}/${END}-${INTERFACE}/html/*              #删除挂载路径下的旧文件
+    - if [ "$INTERFACE" == "api" ];then                                                #判断是否为Php,是否运行composer，并拷贝PHP的.env配置文件
+    -     yes | composer install --ignore-platform-reqs &> /dev/null ||true
+    -     sudo cp .env.example /data/volumes/${NS_NAME}/${END}-${INTERFACE}/html/.env        
+    - fi
+    - sudo cp -r ./*  /data/volumes/${NS_NAME}/${END}-${INTERFACE}/html/               #拷贝项目文件到挂载目录，并修改为容器内可读权限
+    - sudo chown -R www.www /data/volumes/${NS_NAME}/${END}-${INTERFACE}/html/
+  tags: 
+    - akd-php       #选择执行任务的gitlab-runner，需要有权限，可以是共享runner，本群组runner或者本项目runner
+  only:
+    - master           #选择执行的分支
+
+job2:
+  stage: start
+  script:
+    - if [ "$INTERFACE" == "api" ] ; then                                                #判断拷贝的标准模板为api还是html，并重命名
+    -     sudo cp /root/project/api.yaml ./${NS_NAME}-${END}-${INTERFACE}.yaml                
+    - else
+    -     sudo cp /root/project/html.yaml ./${NS_NAME}-${END}-${INTERFACE}.yaml
+    - fi
+    - sudo cp /root/project/ns.yaml ./ns_${NS_NAME}.yaml                                 #名称空间标准模板
+    - sudo sed -i "s@\${NS_NAME}@${NS_NAME}@" ns_${NS_NAME}.yaml                                    #根据变量修改模板取值
+    - sudo sed -i "s@\${NS_NAME}@${NS_NAME}@" ${NS_NAME}-${END}-${INTERFACE}.yaml
+    - sudo sed -i "s@\${PROJECT}@${END}-${INTERFACE}@" ${NS_NAME}-${END}-${INTERFACE}.yaml
+    - sudo kubectl get ns |grep "${NS_NAME}" || kubectl apply -f ns_${NS_NAME}.yaml            #判断名称空间是否存在
+    - sudo kubectl get pods -n ${NS_NAME} |grep "${NS_NAME}-${END}-${INTERFACE}" && sudo kubectl delete -f ${NS_NAME}-${END}-${INTERFACE}.yaml     #删除旧POD，避免缓存等原因导致新建POD不生效     
+    - sudo kubectl apply -f ${NS_NAME}-${END}-${INTERFACE}.yaml  
+  tags:
+    - k8s-master-01

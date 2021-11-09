@@ -1,0 +1,383 @@
+page{
+	background: #F0F2F5;
+}
+.box{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.farm-content{
+	width: 100%;
+	height: 90vh;
+	background: url(../../static/img/67846bb2f642e11891dab70842cb4f1.png) no-repeat;
+	background-size: 100% 100%;
+	position: fixed;
+	z-index: 1;
+	left: 0px;
+	top: 0px;
+}
+.farm-content .my-pet{
+	position: absolute;
+	bottom: 20px;
+	/* left:15px; */
+	left: 0px;
+	padding-left: 15px;
+	padding-top: 20px;
+}
+.farm-content .my-pet image.pet-sober{
+	width: 98px;
+	height: 108px;
+	/* display: none; */
+}
+.farm-content .my-pet image.pet-sleep{
+	/* width: 125px;
+	height: 82px; */
+	/* display: none; */
+	width: 150px;
+	height: 130px;
+}
+
+.top-content{
+	width: 100%;
+}
+.top-content .user-data{
+	border: 1px solid #B5FF67;
+	border-radius: 4px;
+	background: linear-gradient(#BEE860,#63AF19,#519B08);
+	padding: 10px 10px;
+	width: 200px;
+}
+.top-content .user-data .name-cont image.hd{
+	border: 1px solid #FFFFFF;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.top-content .user-data .name-cont .name{
+	color: #FFFFFF;
+	font-size: 14px;
+	margin-right: 10px;
+}
+.top-content .user-data .name-cont .msg-cont{
+	position: relative;
+}
+.top-content .user-data .name-cont .msg-cont image{
+	width: 15px;
+	height: 15px;
+}
+.top-content .user-data .name-cont .msg-cont .num{
+	width: 	20rpx;
+	height: 20rpx;
+	display: inline-flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	background: linear-gradient(#EF8947,#F2AB3E);
+	color: #FFFFFF;
+	font-size: 8rpx;
+	position: absolute;
+	right: -10rpx;
+	top: -10rpx;
+	border-radius: 50%;
+}
+.top-content .user-data .grade-cont{
+	
+}
+.top-content .user-data .grade-cont .progress-cont{
+	width: 115px;
+	height: 16px;
+	border-radius: 8px;
+	background-color: #017003;
+	position: relative;
+	overflow: hidden;
+}
+.top-content .user-data .grade-cont .progress-cont .val{
+	height: 100%;
+	display: inline-block;
+	background: linear-gradient(#BEE860,#63AF19,#519B08);
+	position: absolute;
+	left: 0px;
+	border-radius: 8px;
+}
+.top-content .user-data .grade-cont .progress-cont .text{
+	position: relative;
+	z-index: 1;
+}
+.top-content .all-profit{
+	background-color: rgba(0,0,0,0.3);
+	border-radius: 4px;
+	width: calc(100% - 230px);
+	padding: 10px 5px;
+}
+.top-content .all-profit image{
+	height: 18px;
+	width: 28px;
+	margin-right: 10px;
+}
+.notice-cont{
+	display: inline-flex;
+	align-items: center;
+	align-content: center;
+	justify-content: space-between;
+	border-radius: 27rpx;
+	height: 27px;
+	background-color: rgba(0,0,0,0.2);
+	padding: 0px 10px;
+	margin-top: 10px;
+	position: relative;
+	/* position: fixed;
+	top: 115px;left: 16px;z-index: 10; */
+}
+.notice-cont image{
+	width: 14px;
+	height: 13px;
+}
+.notice-cont .notice{
+	width: 150px;
+	height: 100%;
+	line-height: 27px;
+	padding: 0px 10px;
+	font-size: 12px;
+	color: #FFFFFF;
+}
+.notice-cont .notice swiper,
+.notice-cont .notice swiper-item{
+	width: 100%;height: 100%;
+	line-height: 27px;font-size: 12px;color: #FFFFFF;
+}
+.notice-cont .iconfont{
+	font-size: 12px;
+}
+.handle-cont{
+	width: 90px;
+	height: auto;
+	position: absolute;
+	bottom: 20px;
+	right: 0px;
+}
+.handle-cont .button-cont{
+	width: 60px;
+	height: 66px;
+	position: relative;
+	z-index: 5;
+}
+.handle-cont .button-cont .text{
+	height: 20px;
+	line-height: 20px;
+	width: 100%;
+	position: absolute;
+	color: #A0340A;
+	bottom: 0px;
+	left: 0px;
+	font-size: 8px;
+}
+.handle-cont .button-cont .pic{
+	height: 100%;
+	width: 100%;
+}
+.handle-cont .button-cont .pic image{
+	width: 100%;
+}
+.handle-cont .button-cont.button-share{
+	background: url(../../static/img/c393a0119fc4f4646debffbc0bdc7ea.png) no-repeat;
+	background-size: 100% 100%;
+}
+.handle-cont .button-cont.button-share .pic{
+	height: calc(100% - 20px);
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+.handle-cont .button-cont.button-share .pic image{
+	width: 40px;
+}
+/* 我的农场 */
+.my-farm{
+	width: 70%;
+	height: 60%;
+	position: absolute;
+	left: 15%;
+	bottom: 10%;
+	/* transform: rotate(60deg); */
+}
+.my-farm .fields-list{
+	width: 100%;
+	position: absolute;
+	left: 0px;
+}
+.my-farm .fields-list:nth-child(1){
+	top: 6%;
+}
+.my-farm .fields-list:nth-child(2){
+	top: 17%;
+}
+.my-farm .fields-list:nth-child(3){
+	top: 28%;
+}
+.my-farm .fields-list:nth-child(4){
+	top: 40%;
+}
+.my-farm .fields-list:nth-child(5){
+	top: 53%;
+}
+.my-farm .fields-list:nth-child(6){
+	top: 65%;
+}
+.my-farm .fields-list:nth-child(7){
+	top: 78%;
+}
+.my-farm .fields-group{
+	height: 100px;
+	width: 45%;
+	display: flex;
+	justify-content: center;
+	position: relative;
+	/* overflow: hidden; */
+}
+.my-farm .fields-group .day{
+	position: absolute;
+	left: calc(50% - 50px);
+	top: 20px;
+	text-align: center;
+	width: 100px;
+}
+.my-farm .fields-group .day text{
+	font-size: 8px;
+	background-color: rgba(0,0,0,0.3);
+	padding: 0px 15px;
+	height: 100%;
+	margin: auto;
+	border-radius: 2px;
+}
+
+.my-farm .fields-cont{
+	width: 100px !important;
+	/* height: 64px !important; */
+	border-radius: 4px;
+	position: absolute;
+	left: calc(50% - 50px);
+	bottom: 36px;
+	
+}
+.fields-list .fields-group:nth-child(2){
+	justify-content: flex-end;
+}
+
+/* 我的好友 */
+
+.frend-content{
+	width: 100%;
+	margin-top: 90vh;
+	/* height: 20vh; */
+	/* overflow-y: auto; */
+	position: relative;
+	z-index: 1;
+	background-color: #F0F2F5;
+}
+.frend-content .title{
+	height: 60px;
+	width: 100%;
+	box-sizing: border-box;
+}
+.frend-content scroll-view.frend{
+	width: 100%;
+	height: 160px;
+}
+.frend-content .frend-list{
+	width: 100%;
+	white-space: nowrap;
+}
+.frend-content .frend-list .cont-list{
+	width: 110px;
+	background-color: #FFFFFF;
+	border-radius: 3px;
+	padding: 22px 0px;
+	display: inline-block;
+	margin-right: 15px;
+}
+.frend-content .frend-list .cont-list:last-child{
+	margin-right: 0px;
+}
+.frend-content .frend-list .cont-list image{
+	width: 50px;
+	height: 50px;
+}
+.frend-content .frend-list .cont-list .steal{
+	color: #FFFFFF;
+	font-size: 10px;
+	text-align: center;
+	border-radius: 15px;
+	line-height: 20px;
+	display: inline-flex;
+	padding: 0px 10px;
+	width: auto;
+	margin: auto;
+	background: linear-gradient(left,#FA6C00,#FFB500);
+}
+.select-pet-content{
+	position: relative;
+}
+.select-pet-content .-close{
+	position: absolute;top:-30px;right: 0px;
+}
+.-close .iconfont{font-size: 25px;}
+.select-pet{
+	max-height: 80vh;
+	padding: 0px 18px;
+}
+.select-pet .title{
+	color: #3C3C3C;
+	padding: 18px 0px;
+}
+.select-pet .pet-list{
+	width: 100%;
+	white-space: nowrap;
+	overflow-y: auto;
+}
+.select-pet .cont-list {
+	width: 110px;
+	background-color: #FFFFFF;
+	position: relative;
+	border-radius: 6px;
+	display: inline-block;
+	margin-right: 20px;
+}
+.select-pet .cont-list.active{
+	border: 1px solid #FFB500;
+	border-radius: 4px;
+}
+.select-pet .cont-list .store-pic{
+	width: 100%;
+	padding: 10px;
+	height: 110px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+.select-pet .cont-list .store-pic image{
+	width: 115px;
+	max-height: 100%;
+}
+.select-pet .cont-list .cont {
+	width: 100%;
+}
+.select-pet .cont-list .cont .name{
+	color: #666666;
+	font-size: 12px;
+}
+.select-pet .cont-list .progress-cont {
+	width: 100%;
+	color: #F8E4BA;
+}
+.select-pet .cont-list .progress-cont .twig-cont {
+	width: 100%;
+	height: 9px;
+	background-color: #FDEEC6;
+	border-radius: 5px;
+}
+.select-pet .cont-list .progress-cont .twig-cont .twig {
+	height: 100%;
+	border-radius: 5px;
+	background: linear-gradient(bottom,#FA6C00,#FFB500);
+}
